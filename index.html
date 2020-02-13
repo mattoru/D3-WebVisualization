@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style type="text/css">
+      /* No style rules here yet */   
+      * {
+      	font-family: "Comic Sans";
+      }
+      p, text {
+      	font-size: 0.95em;
+      }
+      svg {
+      	background: white;
+      }
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+      .title h3 {
+          margin-top: 0;
+      }
+
+      .containerdiv {
+          display: flex;
+          flex-direction: column;
+          align-content: center;
+          align-items: center;
+      }
+
+      .chartcontainer {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+      }
+      .tables {
+          display: flex;
+          flex-direction: column;
+      }
+      .deathtable {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2em;
+        padding: 1em;
+        width: 250px;
+        border: 1em double #3982ad;
+        background-color: #caffc4;
+      }
+      .deathtable h3 {
+        text-align: center;
+        font-size: x-large;
+        font-weight: bolder;
+        color: black;
+        opacity: .85;
+      }
+      .deathtable label {
+          font-size: larger;
+          padding: .5em;
+          font-weight: bold;
+      }
+
+      .agetable {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2em;
+        padding: 1em;
+        width: 250px;
+        border: 1em double #3982ad;
+        background-color: #caffc4;
+        visibility: hidden;
+      }
+      .agetable h3 {
+        text-align: center;
+        font-size: x-large;
+        font-weight: bolder;
+        color: black;
+        opacity: .85;
+      }
+      .agetable label {
+          font-size: larger;
+          font-weight: bold;
+          padding: .5em;
+            margin-bottom: 1em;
+      }
+      .colcont {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+      }
+      .agetable .col {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 1.25em;
+      }
+
+      .basedot {
+        height: 25px;
+        width: 25px;
+        background-color: #802479;
+        border-radius: 50%;
+        display: inline-block;
+        }
+
+      .checkboxcontainer {
+        display: flex;
+    flex-direction: column;
+    margin: 2em;
+    padding: 1em;
+    max-width: 250px;
+    border: 1em double #3982ad;
+    background-color: #caffc4;
+      }
+
+      div.tooltip {	
+        position: absolute;			
+        text-align: center;			
+        width: 150px;				
+        padding: 2px;				
+        font: 12px sans-serif;		
+        background: rgb(13, 58, 117);	
+        border: 0px;		
+        border-radius: 8px;			
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1em double #3982ad;
+        background-color: #caffc4;
+        font-weight: bold;	
+    }
+    
+    .selectdiv {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+    }
+    .catlabels {
+        color: black;
+        font: 18px sans-serif;
+        font-weight: bold;
+        display: block;
+        position: relative;
+        margin-top: 14em;
+        margin-left: 5em;
+        padding: 1em;
+        border: 1em double #3982ad;
+        background-color: #caffc4;
+        visibility: hidden;
+    }
+    .genderdiv {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+    }
+    .genderlabels {
+        color: black;
+        font: 18px sans-serif;
+        font-weight: bold;
+        display: block;
+        position: relative;
+        margin-left: 34em;
+        padding: 1em;
+        border: 1em double #3982ad;
+        background-color: #caffc4;
+        visibility: hidden;
+    }
+
+    input[type=checkbox]
+    {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    transform: scale(3);
+    margin: 1em;
+    opacity: .75;
+    }
+    .checkboxcontainer h3 {
+        text-align: center;
+        font-size: x-large;
+        font-weight: bolder;
+        color: black;
+        opacity: .85;
+      }
+    .checkboxcontainer {
+        font-size: larger;
+    }
+
+    .button {
+        margin: 1em;
+    padding: 1em;
+    border: none;
+    background-color: #509055;
+    color: white;
+    font-size: larger;
+    cursor: pointer;
+    margin-top: 2em;
+    }
+
+    .bubbles {
+    stroke-width: 2px;
+    stroke: white;
+    }
+    
+    .bubbles:hover {
+    stroke: black;
+    }
+
+    </style>
+    <title>Nobel Laureates Bubble Chart</title>
+</head>
+<body>
+    <div class="containerdiv">
+        <div class="title">
+            <h1> Nobel Laureates Bubble Chart </h1>
+            <h3> (For best results, zoom out your browser) </h3>
+        </div>
+        <div class="chartcontainer">
+            <div id ="chart">
+                <div id="selectcat" class="selectdiv" >
+                    <label class="catlabels" id="chemistry">Chemistry</label>
+                    <label class="catlabels" id="economics">Economics</label>
+                    <label class="catlabels" id="literature">Literature</label>
+                    <label class="catlabels" id="medicine">Medicine</label>
+                    <label class="catlabels" id="peace">Peace</label>
+                    <label class="catlabels" id="physics">Physics</label>
+                </div>
+                <div id="genderdiv" class="genderdiv" >
+                        <label class="genderlabels" id="male">Male</label>
+                        <label class="genderlabels" id="female">Female</label>
+                </div>
+            </div>
+            <div class="tables">
+                <div class="deathtable">
+                    <h3> Color Legend </h3>
+                    <div>
+                        <span class="basedot" style="background-color: green;"></span>
+                        <label style="padding-right: 2em;"> Alive </label>
+                        <span class="basedot" style="background-color: red;"></span>
+                        <label> Dead </label>
+                    </div>
+                </div>
+                <div class="checkboxcontainer">
+                    <h3> Filter Options </h3>
+                    <div style="margin-top: 1em;">
+                        <input type="checkbox" name="gender" value="gender" id = "gender"> </input>
+                        <label>Gender</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="age" value="age" id = "age"> </input>
+                        <label>Age</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="category" value="category" id = "category"> </input>
+                        <label>Category</label>
+                    </div>
+                        <button id = "combine" class="button">Reset</button>
+                </div>
+                <div class="agetable">
+                    <h3> Age Won Legend </h3>
+                    <div class="colcont">
+                    <div class="col">
+                        <span class="basedot" style="height: 4px; width: 4px;"></span>
+                        <label style=""> Under 30 </label>
+                        <span class="basedot" style="height: 12px; width: 12px;"></span>
+                        <label style=""> 40~49 </label>
+                        <span class="basedot" style="height: 20px; width: 20px;"></span>
+                        <label style=""> 60~69 </label>
+                    </div>
+                    <div class="col">
+                        <span class="basedot" style="height: 8px; width: 8px;"></span>
+                        <label style=""> 30~39 </label>
+                        
+                        <span class="basedot" style="height: 16px; width: 16px;"></span>
+                        <label style=""> 50~59 </label>
+                        
+                        <span class="basedot" style="height: 24px; width: 24px;"></span>
+                        <label style=""> 70~79 </label>
+                    </div>
+                    </div>
+                    <span class="basedot" style="height: 28px; width: 28px;"></span>
+                    <label style=""> 80+ </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="main.js"></script>
+</html>
